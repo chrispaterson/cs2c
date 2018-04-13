@@ -1,6 +1,7 @@
 #include <vector>
 #include <iterator>
 #include <iostream>
+#include <math.h>
 #include "Sublist.h"
 
 int main() {
@@ -9,14 +10,12 @@ int main() {
   std::vector<int> dataSet;
   std::vector<Sublist> choices;
   int k, j, numSets, max, masterSum;
-  bool foundPerfect;
-  int indexOfBestChoice = 0;
-  bool actionTaken = false;
+  bool foundPerfect = false;
+  Sublist ourWinner;
 
   dataSet.push_back(20); 
   dataSet.push_back(12); 
   dataSet.push_back(22);
-  /*
   dataSet.push_back(15); 
   dataSet.push_back(25);
   dataSet.push_back(19); 
@@ -25,32 +24,50 @@ int main() {
   dataSet.push_back(11); 
   dataSet.push_back(13); 
   dataSet.push_back(17);
-  */
 
   choices.clear();
-  choices.push_back(Sublist(&dataSet));
+
+  Sublist emptyList(&dataSet);
+  choices.push_back(emptyList);
 
   std::cout << "Target time: " << TARGET << std::endl;
 
-  /*
-  for j in dataSet
-    size = choices.size
-    for k in choices while k < size
-        if choices[k].getSum() + dataSet[j] > target
-            choices.push_back(the new subset)
-  */
+  // outer loop through S (dataSet)
+  for(int i = 0; i < dataSet.size() && !foundPerfect; i++) {
 
-  for(auto intValue : dataSet) {
+    // inner loop through choices or subsets L
+    for(auto choice : choices) {
 
-    int size = choices.size();
-    for(int i = 0; i < size; i++) {
-      if(choices[i].getSum() + intValue <= TARGET) {
-        //choices.push_back( Sublist(dataSet) );
+      // current choice + current dataset item is less than or equal to the target
+      if(choice.getSum() + dataSet[i] <= TARGET) {
+
+        // create a new sublist
+        Sublist sublist(&dataSet);
+
+        // populate it with current sublist values
+        sublist.addInitialIndicies(choice.getSublistVector());
+
+        // add the index of the dataSet value
+        sublist.addItem(i);
+
+        // add the new sublist to our list of sublists
+        choices.push_back(sublist);
+
+        // set our current winner, or closest value to current choice
+        ourWinner = sublist;
       }
 
+      // if we have a perfect match
+      if(choice.getSum() == TARGET) {
+
+        // break everything
+        foundPerfect = true;
+        break;
+      }
     }
   }
 
+  ourWinner.showSublist();
   return 0;
 }
 
@@ -63,6 +80,7 @@ int main() {
 
 {20,12}
 {20,22}
+{12,22}
 
 {20,12,22}
 */
