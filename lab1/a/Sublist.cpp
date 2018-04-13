@@ -42,6 +42,7 @@ std::vector<int> * Sublist::getSublistVector() {
 void Sublist::addInitialIndicies(std::vector<int> * initIndicies) {
 
   for(auto index : *initIndicies) {
+    sum += originalObjects->at( index );
     indices.push_back(index);
   }
 

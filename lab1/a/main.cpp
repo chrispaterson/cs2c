@@ -35,17 +35,18 @@ int main() {
   // outer loop through S (dataSet)
   for(int i = 0; i < dataSet.size() && !foundPerfect; i++) {
 
+    int size = choices.size();
     // inner loop through choices or subsets L
-    for(auto choice : choices) {
+    for(int j = 0; j < size; j++) {
 
       // current choice + current dataset item is less than or equal to the target
-      if(choice.getSum() + dataSet[i] <= TARGET) {
+      if(choices[j].getSum() + dataSet[i] <= TARGET) {
 
         // create a new sublist
         Sublist sublist(&dataSet);
 
         // populate it with current sublist values
-        sublist.addInitialIndicies(choice.getSublistVector());
+        sublist.addInitialIndicies(choices[j].getSublistVector());
 
         // add the index of the dataSet value
         sublist.addItem(i);
@@ -53,12 +54,12 @@ int main() {
         // add the new sublist to our list of sublists
         choices.push_back(sublist);
 
-        // set our current winner, or closest value to current choice
+        // set our current winner, or closest value to current choices[j]
         ourWinner = sublist;
       }
 
       // if we have a perfect match
-      if(choice.getSum() == TARGET) {
+      if(choices[j].getSum() == TARGET) {
 
         // break everything
         foundPerfect = true;
