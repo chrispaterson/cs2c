@@ -32,6 +32,8 @@ int main() {
 
   std::cout << "Target time: " << TARGET << std::endl;
 
+  int countOfGreater = 0;
+
   // outer loop through S (dataSet)
   for(int i = 0; i < dataSet.size() && !foundPerfect; i++) {
 
@@ -55,7 +57,11 @@ int main() {
         choices.push_back(sublist);
 
         // set our current winner, or closest value to current choices[j]
-        ourWinner = sublist;
+        if(sublist.getSum() > ourWinner.getSum()) {
+          ourWinner = sublist;
+        }
+      } else {
+        countOfGreater ++; 
       }
 
       // if we have a perfect match
@@ -68,20 +74,8 @@ int main() {
     }
   }
 
+
   ourWinner.showSublist();
+
   return 0;
 }
-
-/*
-{}
-
-{20}
-{12}
-{22}
-
-{20,12}
-{20,22}
-{12,22}
-
-{20,12,22}
-*/
