@@ -25,7 +25,8 @@ void Sublist::showSublist() const
 
   for(int i = 0; i < indices.size(); i++) {
 
-    std::cout << TAB << "array[" << i << "] = " << originalObjects->at(indices.at(i)) << ',';
+    char endCommaMaybe = (i < indices.size() - 1) ? ',' : ' ';
+    std::cout << TAB << "array[" << i << "] = " << originalObjects->at(indices.at(i)) << endCommaMaybe ;
   }
 
 }
